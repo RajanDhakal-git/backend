@@ -7,9 +7,10 @@ export const MyContext = createContext()
 const MycontextProvider = ({ children }) => {
     const [Apidata, setApidata] = useState([])
     let {push} = useRouter()
+    const PORT =  3001
     let fetchAlldata = async () => {
         try {
-            let { data } = await axios.get(' http://localhost:3000/api')
+            let { data } = await axios.get(` http://localhost:${PORT}/api`)
             setApidata(data)
 
         } catch (error) {
@@ -19,7 +20,7 @@ const MycontextProvider = ({ children }) => {
 
     let EditData = async (id , title , desc) => {
         try {
-            let res = await axios.put("http://localhost:3000/api/" + id, { "id": id, "title": title, "desc": desc })
+            let res = await axios.put(`http://localhost:${PORT}/api/` + id, { "id": id, "title": title, "desc": desc })
             toast.success("value updated")
             push("/")
             fetchAlldata()
@@ -31,7 +32,7 @@ const MycontextProvider = ({ children }) => {
 
     let Deletedata = async (id) => {
         try {
-            let res = await axios.delete(`http://localhost:3000/api/${id}`)
+            let res = await axios.delete(`http://localhost:${PORT}/api/${id}`)
             fetchAlldata()
             toast.success("Delete Success")
         } catch (error) {
@@ -42,7 +43,7 @@ const MycontextProvider = ({ children }) => {
 
     let getUserinputs = async (title,desc) => {
         try {
-            let res = axios.post("http://localhost:3000/api",{"title":title,"desc":desc})
+            let res = axios.post(`http://localhost:${PORT}/api`,{"title":title,"desc":desc})
             toast.success("added to database")
             push("/")
             fetchAlldata()
